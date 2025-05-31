@@ -1,0 +1,32 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+build:
+  # tagPolicy:
+  #   customTemplate:
+  #     template: "{{.FOO}}_{{.BAR}}"
+  #     components:
+  #     - name: FOO
+  #       dateTime:
+  #         format: "2006-01-02"
+  #         timezone: "UTC"
+  #     - name: BAR
+  #       gitCommit:
+  #         variant: AbbrevCommitSha
+  artifacts:
+  - image: docker.io/stormpath/bogos
+    context: src
+deploy:
+  helm: 
+    releases:
+    - name: bogos
+      chartPath: helm/bogos
+      namespace: apps
+      createNamespace: true
+      setValues:
+        ingress.enabled: true
+        ingress.className: nginx
+        ingress.tls[0].secretName: stormpath-wildcard-tls
+        ingress.tls[0].hosts[0]: bogos.stormpath.net
+        ingress.hosts[0].host: bogos.stormpath.net
+        ingress.hosts[0].paths[0].path: /
+        ingress.hosts[0].paths[0].pathType: ImplementationSpecific
