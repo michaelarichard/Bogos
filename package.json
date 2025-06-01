@@ -1,0 +1,11 @@
+{
+  "name": "bogos-games",
+  "version": "1.0.0",
+  "description": "A collection of simple games",
+  "scripts": {
+    "deploy": "gh-pages -d src/static"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
